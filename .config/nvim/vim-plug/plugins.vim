@@ -29,6 +29,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
   \ ]
+Plug 'rafcamlet/coc-nvim-lua' " for nvim lua api autocomplete
 
 " JS-TS-React-GraphQL
  " Plug 'jelera/vim-javascript-syntax'

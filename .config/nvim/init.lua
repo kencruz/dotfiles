@@ -5,7 +5,7 @@ vim.cmd('source $HOME/.config/nvim/vim-plug/plugins.vim')
 -- load settings
 vim.cmd('source $HOME/.config/nvim/settings/general.vim')
 -- load mappings
-vim.cmd('source $HOME/.config/nvim/settings/mappings.vim')
+require('mappings')
 
 -- just for vim-lsc-dart
 -- let g:lsc_auto_map = v:true
