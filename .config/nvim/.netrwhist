@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/ken/projects/python/google-code-sample/python'
+let g:netrw_dirhist_5='/home/ken/projects/javascript/weather-cli/__tests__'
+let g:netrw_dirhist_4='/home/ken/projects/javascript/weather-cli'
+let g:netrw_dirhist_3='/home/ken/projects/javascript/weather-cli/__tests__'
+let g:netrw_dirhist_2='/home/ken/projects/javascript/weather-cli'
+let g:netrw_dirhist_1='/home/ken/projects/javascript'
+let g:netrw_dirhist_0='/home/ken/projects/javascript/v29-bears-team-05'
+let g:netrw_dirhist_9='/home/ken/projects/javascript/v29-bears-team-05/develop'
+let g:netrw_dirhist_8='/home/ken/projects/javascript/v29-bears-team-05/develop/server'
+let g:netrw_dirhist_7='/home/ken/projects/javascript/v29-bears-team-05/develop/server/src'
