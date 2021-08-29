@@ -11,7 +11,9 @@ vim.g.mapleader = ' '
 -- source $HOME/.config/nvim/settings/workman-mapping.vim
 
 -- coc mappings
-vim.cmd('source $HOME/.config/nvim/plug-settings/coc.vim')
+--vim.cmd('source $HOME/.config/nvim/plug-settings/coc.vim')
+-- lsp config
+vim.cmd('source $HOME/.config/nvim/plug-settings/lsp-config.vim')
 
 -- copy / paste to/from system clipboard
 keymap('v', '<C-y>', '"+y', opts)
@@ -44,7 +46,8 @@ keymap('n', '<Leader>bn', ':bnext<cr>', opts)
 keymap('n', '<Leader>bm', ':bprevious<cr>', opts)
 keymap('n', '<Leader>bd', ':bd<cr>', opts)
 -- Removes all buffers except for current one
-keymap('n', '<Leader>bc', [[:%bd\|e#<cr>]], opts)
+keymap('n', '<leader>bc', ':%bd|e#|bd#<CR>', opts)
+--vim.cmd('"nnoremap <leader>bc :%bd\\|e#<CR>"')
 
 -- Clear word highlights
 keymap('n', '\\', ':noh<CR>', opts)

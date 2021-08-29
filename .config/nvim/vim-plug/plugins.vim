@@ -18,6 +18,8 @@ Plug 'rbgrouleff/bclose.vim'
 " Tree sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-treesitter/playground'
+" auto-pairs for nvim
+Plug 'windwp/nvim-autopairs'
 
 " Dart for flutter dev
 "Plug 'dart-lang/dart-vim-plugin'
@@ -25,21 +27,35 @@ Plug 'nvim-treesitter/playground'
 "Plug 'natebosch/vim-lsc-dart'
 
 " coc-nvim autocompletion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = [
-  \ 'coc-tsserver'
-  \ ]
-Plug 'rafcamlet/coc-nvim-lua' " for nvim lua api autocomplete
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" let g:coc_global_extensions = [
+"   \ 'coc-tsserver'
+"   \ ]
+" Plug 'rafcamlet/coc-nvim-lua' " for nvim lua api autocomplete
+
+" Native LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 
 " JS-TS-React-GraphQL
  " Plug 'jelera/vim-javascript-syntax'
- Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 " Plug 'leafgarland/typescript-vim'
 "this is typescript Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'peitalin/vim-jsx-typescript'
- Plug 'maxmellon/vim-jsx-pretty'
- Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
- Plug 'jparise/vim-graphql'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+
+" Possible that this messes with syntax highlighting
+" Plug 'prettier/vim-prettier', {
+"  \ 'do': 'npm install',
+"  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'svelte', 'yaml', 'html'] }
+" let g:prettier#autoformat = 1
+" let g:prettier#autoformat_require_pragma = 0
+
 
 " JS-TS-React-GraphQL
 " Plug 'pangloss/vim-javascript'
@@ -59,6 +75,8 @@ Plug 'ludovicchabant/vim-gutentags'
 
 " git browsing
 Plug 'mhinz/vim-signify'
+" default updatetime 4000ms is not good for async update
+set updatetime=100
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 

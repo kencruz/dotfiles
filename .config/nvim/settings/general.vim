@@ -44,6 +44,7 @@ colorscheme gruvbox
 " hi link typescriptBraces Normal
 " for transparent background
 " hi Normal guibg=NONE ctermbg=NONE
+"
 hi link TSFunction Type
 hi link TSKeywordFunction Structure
 hi link TSPunctBracket Comment
