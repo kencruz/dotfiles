@@ -70,17 +70,22 @@ if executable("rg")
 endif
 
 " coc settings for js linting
-if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-  let g:coc_global_extensions += ['coc-prettier']
-endif
+" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+"   let g:coc_global_extensions += ['coc-prettier']
+" endif
+" 
+" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+"   let g:coc_global_extensions += ['coc-eslint']
+" endif
+" 
+" " coc read javascript file as typescript for tsserver temporary workaround
+" let g:coc_filetype_map = {'javascript' : 'typescriptreact'}
 
-if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-  let g:coc_global_extensions += ['coc-eslint']
-endif
 
-" coc read javascript file as typescript for tsserver temporary workaround
-let g:coc_filetype_map = {'javascript' : 'typescriptreact'}
-
+" Enable type inlay hints
+" autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+" \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+" 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
