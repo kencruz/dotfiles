@@ -5,8 +5,8 @@ nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <leader>j <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> <leader>k <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> <leader>j <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <silent> <leader>k <cmd>lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent> <leader>rr <cmd>lua vim.lsp.buf.rename()<CR> 
 
 " auto-format

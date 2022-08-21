@@ -57,8 +57,8 @@ hi link TSVariableBuiltin Identifier
 hi link TSTag Define
 hi link TSTagDelimiter Comment
 hi link TSTagAttribute Type
-" airline settings
-let g:airline#extensions#tabline#enabled = 1
+" airline settings -Removing pending
+" let g:airline#extensions#tabline#enabled = 1
 
 " ranger settings
 " let g:ranger_command_override = 'ranger -r $HOME/.config/nvim/plug-settings/ranger'
@@ -84,7 +84,7 @@ endif
 
 " Enable type inlay hints
 " autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-" \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+" \ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = 'Comment', enabled = {"TypeHint", 'ChainingHint", "ParameterHint'} }
 " 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {

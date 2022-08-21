@@ -32,8 +32,8 @@ keymap('n', '<Leader>w', ':close<CR>', opts)
 -- Keep focused window, remove the rest
 keymap('n', '<Leader>c', ':on<CR>', opts)
 
--- edit vimrc in a split
-keymap('n', '<Leader>ev', ':vsplit $MYVIMRC<cr>', opts)
+-- edit vimrc 
+keymap('n', '<Leader>ev', ':e $MYVIMRC<cr>', opts)
 
 -- Set working directory to current file
 keymap('n', '<Leader>ed', ':cd %:p:h<CR>: echo "Working Dir is now:" expand("%:p:h")<CR>', opts)
@@ -63,6 +63,7 @@ keymap('n', '<Leader>ff', ':GFiles<CR>', opts)
 keymap('n', '<Leader>fF', ':Files<CR>', opts)
 keymap('n', '<Leader>fg', ':Rg<CR>', opts)
 keymap('n', '<Leader>fb', ':Buffers<CR>', opts)
+keymap('n', '<Leader>_', ':BLines<CR>', opts)
 keymap('n', '<C-t>', ':Tags<CR>', opts)
 
 -- Show tasks list

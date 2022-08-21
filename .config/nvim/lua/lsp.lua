@@ -1,155 +1,126 @@
 local nvim_lsp = require("lspconfig")
 
-local format_async = function(err, _, result, _, bufnr)
-    if err ~= nil or result == nil then return end
-    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-        local view = vim.fn.winsaveview()
-        vim.lsp.util.apply_text_edits(result, bufnr)
-        vim.fn.winrestview(view)
-        if bufnr == vim.api.nvim_get_current_buf() then
-            vim.api.nvim_command("noautocmd :update")
-        end
-    end
-end
-
-vim.lsp.handlers["textDocument/formatting"] = format_async
-
-_G.lsp_organize_imports = function()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = {vim.api.nvim_buf_get_name(0)},
-        title = ""
-    }
-    vim.lsp.buf.execute_command(params)
-end
-
-
+-- Use an on_attach function to only map the following keys 
+-- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    local buf_map = vim.api.nvim_buf_set_keymap
-    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-    vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
-    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-    vim.cmd("command! LspOrganize lua lsp_organize_imports()")
-    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-    vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
-    vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
-    vim.cmd(
-        "command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
-    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
-    buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
-    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "K", ":LspHover<CR>", {silent = true})
-    buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
-    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
-    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
-    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
-    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>",
-              {silent = true})if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_exec([[
-         augroup LspAutocommands
-             autocmd! * <buffer>
-             autocmd BufWritePost <buffer> LspFormatting
-         augroup END
-         ]], true)
-    end
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  -- --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  -- --buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  -- buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  -- --buf_set_keymap('n', '<C-j>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  -- buf_set_keymap('n', '<S-C-j>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+  -- formatting
+  if client.name == 'tsserver' then
+    client.resolved_capabilities.document_formatting = false
   end
 
-nvim_lsp.tsserver.setup {
-    -- remove diagnostics if eslint is used
-    -- handlers = {
-    --     ['textDocument/publishDiagnostics'] = function(...) end
-    -- },
-    on_attach = function(client)
-        client.resolved_capabilities.document_formatting = false
-        on_attach(client)
-    end
-}
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_command [[augroup Format]]
+    vim.api.nvim_command [[autocmd! * <buffer>]]
+    vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    vim.api.nvim_command [[augroup END]]
+  end
+end
+
+
+-- Set up completion using nvim_cmp with LSP source
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(
+--   vim.lsp.protocol.make_client_capabilities()
+-- )
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 nvim_lsp.rust_analyzer.setup{}
 
-local filetypes = {
-  html = "empty",
-  css = "empty",
-  javascript = "eslint",
-  javascriptreact = "eslint",
-  typescript = "eslint",
-  typescriptreact = "eslint",
+nvim_lsp.tsserver.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 300,
+  },
+  filetypes = {"javascript", "typescript", "typescriptreact", "typescript.tsx" },
+  capabilities = capabilities
 }
 
-local linters = {
-  empty = {},
-  eslint = {
-    sourceName = "eslint",
-    command = "eslint_d",
-    rootPatterns = {".eslintrc.js", "package.json"},
-    debounce = 100,
-    args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-    parseJson = {
-        errorsRoot = "[0].messages",
-        line = "line",
-        column = "column",
-        endLine = "endLine",
-        endColumn = "endColumn",
-        message = "${message} [${ruleId}]",
-        security = "severity"
-    },
-    --securities = {[2] = "error", [1] = "warning"}
-    securities = {[2] = "warning", [1] = "error"}
-  }
-}
-
-local formatters = {
-  prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}}
-}
-
-local formatFiletypes = {
-  html = "prettier",
-  css = "prettier",
-  javascript = "prettier",
-  javascriptreact = "prettier",
-  typescript = "prettier",
-  typescriptreact = "prettier"
-}
+nvim_lsp.solargraph.setup{}
 
 nvim_lsp.diagnosticls.setup {
   on_attach = on_attach,
-  filetypes = vim.tbl_keys(filetypes),
+  flags = {
+    debounce_text_changes = 300,
+  },
+  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css' },
   init_options = {
-    filetypes = filetypes,
-    linters = linters,
-    formatters = formatters,
-    formatFiletypes = formatFiletypes
+    linters = {
+      eslint = {
+        command = 'eslint_d',
+        rootPatterns = { '.git' },
+        debounce = 100,
+        args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
+        sourceName = 'eslint_d',
+        parseJson = {
+          errorsRoot = '[0].messages',
+          line = 'line',
+          column = 'column',
+          endLine = 'endLine',
+          endColumn = 'endColumn',
+          message = '[eslint] ${message} [${ruleId}]',
+          security = 'severity'
+        },
+        securities = {
+          [2] = 'error',
+          [1] = 'warning'
+        }
+      },
+    },
+    filetypes = {
+      javascript = 'eslint',
+      javascriptreact = 'eslint',
+      typescript = 'eslint',
+      typescriptreact = 'eslint',
+    },
+    formatters = {
+      eslint_d = {
+        command = 'eslint_d',
+        rootPatterns = { '.git' },
+        args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
+        rootPatterns = { '.git' },
+      },
+      prettier = {
+        command = 'prettier',
+        rootPatterns = { '.git' },
+        -- requiredFiles: { 'prettier.config.js' },
+        args = { '--stdin', '--stdin-filepath', '%filename' }
+      }
+    },
+    formatFiletypes = {
+      css = 'prettier',
+      javascript = 'prettier',
+      javascriptreact = 'prettier',
+      typescript = 'prettier',
+      typescriptreact = 'prettier',
+      json = 'prettier',
+    }
   }
 }
-
--- emmet-ls config
-local configs = require'lspconfig/configs'    
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-if not nvim_lsp.emmet_ls then    
-  configs.emmet_ls = {    
-    default_config = {    
-      cmd = {'emmet-ls', '--stdio'};
-      filetypes = {'html', 'css', 'jsx', 'tsx'};
-      root_dir = function(fname)    
-        return vim.loop.cwd()
-      end;    
-      settings = {};    
-    };    
-  }    
-end    
-nvim_lsp.emmet_ls.setup{ capabilities = capabilities; }
-
-
--- type inlay hints
-vim.cmd([[autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }]] )

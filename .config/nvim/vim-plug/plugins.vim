@@ -35,9 +35,31 @@ Plug 'windwp/nvim-autopairs'
 
 " Native LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+" Plug 'hrsh7th/nvim-compe'
+
+" nvim-cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp', { 'branch': 'main'}
+
+Plug 'nvim-lua/plenary.nvim' " Dependency for null-ls
+Plug 'jose-elias-alvarez/null-ls.nvim', { 'branch': 'main'}
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils', { 'branch': 'main'}
+
+" For ultisnips users.
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" For luasnip users.
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
+
+Plug 'hrsh7th/cmp-vsnip', { 'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+
 " Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
 
@@ -85,8 +107,12 @@ Plug 'junegunn/gv.vim'
 "Todo list
 Plug 'aserebryakov/vim-todo-lists'
 
-" Vim airline
-Plug 'vim-airline/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
+
+" Vim airline -Disabled for nvim errors
+" Plug 'vim-airline/vim-airline'
 
 " Easy register hints
 Plug 'junegunn/vim-peekaboo'
