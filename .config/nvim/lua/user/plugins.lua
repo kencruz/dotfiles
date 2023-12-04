@@ -57,6 +57,7 @@ return packer.startup(function(use)
   use { "lukas-reineke/indent-blankline.nvim", commit = "6177a59552e35dfb69e1493fd68194e673dc3ee2" }
   use { "goolord/alpha-nvim", commit = "ef27a59e5b4d7b1c2fe1950da3fe5b1c5f3b4c94" }
   use { "norcalli/nvim-colorizer.lua", commit = "36c610a9717cc9ec426a07c8e6bf3b3abcb139d6" }
+  use({ "iamcco/markdown-preview.nvim", commit = "02cc3874738bc0f86e4b91f09b8a0ac88aef8e96", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
   -- Colorschemes
   use { "folke/tokyonight.nvim", commit = "8223c970677e4d88c9b6b6d81bda23daf11062bb" }
@@ -82,6 +83,10 @@ return packer.startup(function(use)
   use { "jose-elias-alvarez/null-ls.nvim", commit = "ff40739e5be6581899b43385997e39eecdbf9465" } -- for formatters and linters
   use { "RRethy/vim-illuminate", commit = "c82e6d04f27a41d7fdcad9be0bce5bb59fcb78e5" }
 
+  -- Languages
+  use { "rust-lang/rust.vim", commit = "889b9a7515db477f4cb6808bef1769e53493c578" } -- rust lang support, fixes :RustFmt
+  use { "simrat39/rust-tools.nvim", commit = "b297167d9e01accc9b9afe872ce91e791df2dde0" } -- rust tools
+
   -- Telescope
   use { "nvim-telescope/telescope.nvim", commit = "d96eaa914aab6cfc4adccb34af421bdd496468b0" }
 
@@ -91,6 +96,8 @@ return packer.startup(function(use)
     commit = "518e27589c0463af15463c9d675c65e464efc2fe",
   }
   use { "nvim-treesitter/playground", commit = "90d2b3e1729363f96ce2c23f16129534df893bbf" }
+
+  use { "nvim-treesitter/nvim-treesitter-context", commit = "d28654b012d4c56beafec630ef7143275dff76f8"} -- for sticky function signatures
 
   -- Git
   use { "lewis6991/gitsigns.nvim", commit = "c18e016864c92ecf9775abea1baaa161c28082c3" }
